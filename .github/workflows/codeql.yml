@@ -25,8 +25,14 @@ jobs:
         build-mode: [ 'autobuild' ]
 
     steps:
+      - name: Debug branch info
+        run: echo "Current branch: ${{ github.ref }}"
+
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
         
       - name: Set up JDK
         uses: actions/setup-java@v4
