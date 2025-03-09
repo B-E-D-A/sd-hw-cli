@@ -1,7 +1,7 @@
 # CLI Interpreter
 
-[![CI](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/ci.yml)
-[![CodeQL Advanced](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/codeql.yml/badge.svg)](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/codeql.yml)
+[![CI](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/ci.yml/badge.svg?branch=cli-arch)](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/ci.yml)
+[![CodeQL Advanced](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/codeql.yml/badge.svg?branch=cli-arch)](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/codeql.yml)
 [![Workflow: Dependabot](https://img.shields.io/badge/Dependabot-enabled-33dd44?logo=github)](https://github.com/B-E-D-A/sd-hw-cli/actions/workflows/dependabot/dependabot-updates)
 
 ## Описание проекта
