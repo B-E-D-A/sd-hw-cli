@@ -51,8 +51,8 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
         
-      - name: Run Gradle without Wrapper
-        run: gradle build
+      - name: Build your code with Gradle
+        run: ./gradlew build 
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
