@@ -10,8 +10,8 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
-        java: [ 17 ]
+        os: [ubuntu-latest, windows-latest]
+        java: [17]
 
     runs-on: ${{ matrix.os }}
 
@@ -27,7 +27,12 @@ jobs:
 
       - name: Debug file structure
         run: |
-          if [ $RUNNER_OS == 'Linux' ]; then ls -R; else dir; fi
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            ls -R
+          else
+            dir
+          fi
+        shell: bash
 
       - name: Grant execute permission for gradlew (Linux only)
         if: runner.os == 'Linux'
