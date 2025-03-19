@@ -18,7 +18,7 @@ class EnvironmentTest {
     @Test
     void testGetNonExistingVariable() {
         Environment env = new Environment();
-        assertEquals("", env.getVariable("UNKNOWN_VAR"));
+        assertEquals("\"\"", env.getVariable("UNKNOWN_VAR"));
     }
 
     @Test

@@ -24,16 +24,13 @@ public class Parser {
             return commands;
         }
 
+        input = resolveVariables(input);
         List<String> tokens = tokenize(input);
         if (tokens.isEmpty()) {
             return commands;
         }
         String commandName = tokens.get(0);
-        List<String> args = new ArrayList<>();
-        for (int i = 1; i < tokens.size(); i++) {
-            args.add(resolveVariables(tokens.get(i)));
-        }
-
+        List<String> args = tokens.subList(1, tokens.size());
         commands.add(new Command(commandName, args));
         return commands;
     }
@@ -63,12 +60,12 @@ public class Parser {
     private String resolveVariables(String arg) {
         Pattern pattern = Pattern.compile("\\$(\\w+)");
         Matcher matcher = pattern.matcher(arg);
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         while (matcher.find()) {
             String varName = matcher.group(1);
             String value = environment.getVariable(varName);
-            matcher.appendReplacement(result, value != null ? value : "");
+            matcher.appendReplacement(result, value);
         }
         matcher.appendTail(result);
 

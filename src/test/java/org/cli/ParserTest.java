@@ -74,7 +74,8 @@ class ParserTest {
         List<Command> commands = parser.parse("echo $UNKNOWN");
         assertEquals(1, commands.size());
         assertEquals("echo", commands.get(0).getName());
-        assertEquals(List.of(""), commands.get(0).getArguments());
+        assertEquals(1, commands.get(0).getArguments().size());
+        assertEquals("", commands.get(0).getArguments().get(0));
     }
 
     @Test

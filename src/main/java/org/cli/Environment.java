@@ -20,7 +20,7 @@ public class Environment {
      * @return значение переменной или пустая строка, если переменная отсутствует
      */
     public String getVariable(String name) {
-        return variables.getOrDefault(name, "");
+        return variables.getOrDefault(name, "\"\"");
     }
 
     /**
