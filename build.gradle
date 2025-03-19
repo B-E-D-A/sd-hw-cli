@@ -1,13 +1,23 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
-group = 'org.example'
+group = 'org.cli'
 version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test).configureEach {
+    jvmArgs = ['-Dfile.encoding=UTF-8']
+}
+
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
@@ -16,4 +26,35 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
+
+application {
+    mainClass = 'org.cli.Main'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.cli.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveBaseName = 'cli'
+    archiveVersion = '1.0'
+}
+
+tasks.register('createCliScript') {
+    doLast {
+        def cliScript = new File(project.rootDir, "cli")
+        cliScript.text = '''#!/bin/bash
+java -jar build/libs/cli-1.0.jar "\\$@"
+'''
+        cliScript.setExecutable(true)
+    }
+}
+
+build.finalizedBy createCliScript
