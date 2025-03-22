@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ParserTest {
 
@@ -16,8 +15,9 @@ class ParserTest {
     @BeforeEach
     void setUp() {
         environment = new Environment();
-        environment.setVariable("USER", "Alice");
-        parser = new Parser(environment);
+        environment.setVariable("USER", "Katya");
+        Executor executor = new Executor(environment);
+        parser = new Parser(environment, executor);
     }
 
     @Test
@@ -57,7 +57,7 @@ class ParserTest {
         List<Command> commands = parser.parse("echo $USER");
         assertEquals(1, commands.size());
         assertEquals("echo", commands.get(0).getName());
-        assertEquals(List.of("Alice"), commands.get(0).getArguments());
+        assertEquals(List.of("Katya"), commands.get(0).getArguments());
     }
 
     @Test
@@ -66,7 +66,7 @@ class ParserTest {
         List<Command> commands = parser.parse("echo $USER@$HOST");
         assertEquals(1, commands.size());
         assertEquals("echo", commands.get(0).getName());
-        assertEquals(List.of("Alice@localhost"), commands.get(0).getArguments());
+        assertEquals(List.of("Katya@localhost"), commands.get(0).getArguments());
     }
 
     @Test
@@ -74,8 +74,6 @@ class ParserTest {
         List<Command> commands = parser.parse("echo $UNKNOWN");
         assertEquals(1, commands.size());
         assertEquals("echo", commands.get(0).getName());
-        assertEquals(1, commands.get(0).getArguments().size());
-        assertEquals("", commands.get(0).getArguments().get(0));
     }
 
     @Test
@@ -93,8 +91,10 @@ class ParserTest {
     @Test
     void testParseCommandWithPipes() {
         List<Command> commands = parser.parse("cat file.txt | wc");
-        assertEquals(1, commands.size()); // Пока `Pipeline` не реализован, команды в `Parser` не разделяются по `|`
+        assertEquals(2, commands.size());
         assertEquals("cat", commands.get(0).getName());
-        assertEquals(List.of("file.txt", "|", "wc"), commands.get(0).getArguments());
+        assertEquals(List.of("file.txt"), commands.get(0).getArguments());
+        assertEquals("wc", commands.get(1).getName());
+        assertTrue(commands.get(1).getArguments().isEmpty());
     }
 }

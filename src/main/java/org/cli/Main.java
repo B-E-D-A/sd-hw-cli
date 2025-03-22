@@ -3,14 +3,11 @@ package org.cli;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Главный класс CLI-интерпретатора, принимает ввод пользователя
- */
 public class Main {
     public static void main(String[] args) {
         Environment environment = new Environment();
-        Parser parser = new Parser(environment);
         Executor executor = new Executor(environment);
+        Parser parser = new Parser(environment, executor);
 
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
@@ -27,8 +24,15 @@ public class Main {
                 }
                 try {
                     List<Command> commands = parser.parse(input);
+                    String output = null;
                     for (Command command : commands) {
-                        executor.execute(command);
+                        output = executor.execute(command, output);
+                    }
+                    if (output != null) {
+                        System.out.print(output);
+                        if (output != "") {
+                            System.out.print("\n");
+                        }
                     }
                 } catch (Exception e) {
                     System.err.println("Error: " + e.getMessage());

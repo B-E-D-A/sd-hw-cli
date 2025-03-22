@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EnvironmentTest {
 
@@ -29,5 +29,27 @@ class EnvironmentTest {
         Map<String, String> vars = env.getVariables();
         assertEquals("1", vars.get("A"));
         assertEquals("2", vars.get("B"));
+    }
+
+    @Test
+    void testSystemEnvironmentVariables() {
+        Environment env = new Environment();
+        String systemVarName = "PATH";
+        String systemVarValue = System.getenv(systemVarName);
+
+        if (systemVarValue != null) {
+            assertEquals(systemVarValue, env.getVariable(systemVarName));
+        } else {
+            System.out.println("Системная переменная " + systemVarName + " не найдена.");
+        }
+    }
+
+    @Test
+    void testOverwriteVariable() {
+        Environment env = new Environment();
+        env.setVariable("TEST_VAR", "Hello");
+        env.setVariable("TEST_VAR", "World");
+
+        assertEquals("World", env.getVariable("TEST_VAR"));
     }
 }
