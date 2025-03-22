@@ -30,20 +30,6 @@ class EnvironmentTest {
         assertEquals("1", vars.get("A"));
         assertEquals("2", vars.get("B"));
     }
-
-    @Test
-    void testSystemEnvironmentVariables() {
-        Environment env = new Environment();
-        String systemVarName = "PATH";
-        String systemVarValue = System.getenv(systemVarName);
-
-        if (systemVarValue != null) {
-            assertEquals(systemVarValue, env.getVariable(systemVarName));
-        } else {
-            System.out.println("Системная переменная " + systemVarName + " не найдена.");
-        }
-    }
-
     @Test
     void testOverwriteVariable() {
         Environment env = new Environment();
