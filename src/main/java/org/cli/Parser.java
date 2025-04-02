@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
  */
 public class Parser {
     private final Environment environment;
-    private final Executor executor;
+//    private final Executor executor;
 
     public Parser(Environment environment, Executor executor) {
         this.environment = environment;
-        this.executor = executor;
+//        this.executor = executor;
     }
 
     /**
