@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Разбирает строку ввода в команды и аргументы.
+ */
 public class Parser {
     private final Environment environment;
     private final Executor executor;
@@ -14,6 +17,9 @@ public class Parser {
         this.executor = executor;
     }
 
+    /**
+     * Преобразует строку в список команд.
+     */
     public List<Command> parse(String input) {
         List<Command> commands = new ArrayList<>();
         if (input.isBlank()) {
@@ -34,6 +40,9 @@ public class Parser {
         return commands;
     }
 
+    /**
+     * Разбивает строку на аргументы, учитывая кавычки.
+     */
     private List<String> tokenize(String input) {
         List<String> tokens = new ArrayList<>();
         Matcher matcher = Pattern.compile("\"([^\"]*)\"|'([^']*)'|(\\S+)").matcher(input);
@@ -49,6 +58,9 @@ public class Parser {
         return tokens;
     }
 
+    /**
+     * Заменяет переменные окружения вида $VAR на их значения.
+     */
     private String resolveVariables(String arg) {
         Pattern pattern = Pattern.compile("\\$(\\w+)");
         Matcher matcher = pattern.matcher(arg);

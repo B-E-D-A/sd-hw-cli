@@ -1,19 +1,32 @@
 package org.cli;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 
 /**
  * Класс, выполняющий команды CLI.
  */
 public class Executor {
     private final Environment environment;
+    private final GrepHandler grepHandler;
 
     public Executor(Environment environment) {
         this.environment = environment;
+        this.grepHandler = new GrepHandler(environment);
     }
 
     /**
@@ -24,23 +37,19 @@ public class Executor {
      * @return вывод команды
      */
     public String execute(Command command, String input) {
-        switch (command.getName()) {
-            case "echo":
-                return executeEcho(command, input);
-            case "cat":
-                return executeCat(command, input);
-            case "wc":
-                return executeWc(command, input);
-            case "pwd":
-                return executePwd();
-            case "exit":
+        return switch (command.getName()) {
+            case "echo" -> executeEcho(command, input);
+            case "cat" -> executeCat(command, input);
+            case "wc" -> executeWc(command, input);
+            case "pwd" -> executePwd();
+            case "exit" -> {
                 System.exit(0);
-                return "";
-            case "set":
-                return executeSet(command, input);
-            default:
-                return executeExternal(command, input);
-        }
+                yield "";
+            }
+            case "set" -> executeSet(command, input);
+            case "grep" -> executeGrep(command, input);
+            default -> executeExternal(command, input);
+        };
     }
 
     /**
@@ -167,5 +176,23 @@ public class Executor {
 
         environment.setVariable(varName, varValue);
         return "";
+    }
+
+    /**
+     * Реализация команды `grep`.
+     * Ищет строки, соответствующие заданному шаблону.
+     */
+    private String executeGrep(Command command, String input) {
+        GrepParameters params = new GrepParameters();
+        JCommander jc = JCommander.newBuilder()
+                .addObject(params)
+                .build();
+
+        try {
+            jc.parse(command.getArguments().toArray(new String[0]));
+            return grepHandler.execute(params, input);
+        } catch (ParameterException e) {
+            return "grep: " + e.getMessage();
+        }
     }
 }
