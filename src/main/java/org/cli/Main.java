@@ -3,6 +3,9 @@ package org.cli;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Главный класс CLI-интерпретатора, принимает ввод пользователя
+ */
 public class Main {
     public static void main(String[] args) {
         Environment environment = new Environment();
