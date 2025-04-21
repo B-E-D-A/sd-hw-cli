@@ -25,14 +25,15 @@ jobs:
         build-mode: [ 'autobuild' ]
 
     steps:
-      - name: Debug branch info
-        run: echo "Current branch: ${{ github.ref }}"
 
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
+          
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
         
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -54,8 +55,9 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
         
-      - name: Run Gradle without Wrapper
-        run: gradle build
+      - name: Build your code with Gradle
+        run: ./gradlew build 
+
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
