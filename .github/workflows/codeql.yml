@@ -25,6 +25,7 @@ jobs:
         build-mode: [ 'autobuild' ]
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -56,6 +57,7 @@ jobs:
         
       - name: Build your code with Gradle
         run: ./gradlew build 
+
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
