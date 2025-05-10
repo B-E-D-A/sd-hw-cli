@@ -14,17 +14,31 @@ public class Pipeline {
 
     /**
      * Выполняет пайплайн команд, передавая вывод каждой команды на вход следующей.
+     *
      * @param environment окружение с переменными
      * @return результат выполнения последней команды
      */
     public String execute(Environment environment) {
-        String input = null;
+        String result = null;
         Executor executor = new Executor(environment);
 
+        // Последовательно выполняем каждую команду
         for (Command command : commands) {
-            input = executor.execute(command, input);
+            result = executor.execute(command, result); // Передаём результат предыдущей команде как input
+            if (isError(result)) {
+                break;  // Прерываем выполнение пайплайна, если произошла ошибка
+            }
         }
+        return result;
+    }
 
-        return input;
+    /**
+     * Проверяет, является ли результат выполнения команды ошибкой
+     *
+     * @param result результат выполнения команды
+     * @return true если результат содержит маркер ошибки, false в противном случае
+     */
+    private boolean isError(String result) {
+        return result != null && (result.startsWith("ERROR: ") || result.startsWith("ERR: "));
     }
 }

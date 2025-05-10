@@ -79,7 +79,7 @@ class ExecutorTest {
     void testUnknownCommand() {
         Command unknownCommand = new Command("unknown_command", List.of());
         String output = executor.execute(unknownCommand, null);
-        assertTrue(output.contains("Error while executing command"));
+        assertTrue(output.contains("ERROR: unknown_command:"));
     }
 
     @Test

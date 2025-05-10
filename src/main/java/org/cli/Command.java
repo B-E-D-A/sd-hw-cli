@@ -10,6 +10,9 @@ public class Command {
     private final String name;
     private final List<String> arguments;
 
+    /**Флаг, указывающий, что аргумент команды должен трактоваться буквально (не как regex)*/
+    private boolean literalMatch = false;
+
     /**
      * Создаёт команду с указанным именем и аргументами.
      *
@@ -19,6 +22,20 @@ public class Command {
     public Command(String name, List<String> arguments) {
         this.name = name;
         this.arguments = arguments;
+    }
+
+    /**
+     * Возвращает флаг, должны ли аргументы трактоваться буквально.
+     */
+    public boolean isLiteralMatch() {
+        return literalMatch;
+    }
+
+    /**
+     * Устанавливает флаг, должны ли аргументы трактоваться буквально.
+     */
+    public void setLiteralMatch(boolean literalMatch) {
+        this.literalMatch = literalMatch;
     }
 
     /**

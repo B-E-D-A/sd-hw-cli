@@ -16,25 +16,25 @@ public class Main {
             while (true) {
                 System.out.print("> ");
                 if (!scanner.hasNextLine()) {
-                    break;
+                    break; // Если нет ввода, выходим из цикла
                 }
                 String input = scanner.nextLine().trim();
                 if (input.isEmpty()) {
-                    continue;
+                    continue; // Если ввод пустой, пропускаем его
                 }
                 if ("exit".equalsIgnoreCase(input)) {
-                    break;
+                    break; // Если введено "exit", выходим из программы
                 }
                 try {
-                    List<Command> commands = parser.parse(input);
-                    String output = null;
-                    for (Command command : commands) {
-                        output = executor.execute(command, output);
-                    }
+                    List<Command> commands = parser.parse(input); // Парсим команду, введенную пользователем
+                    Pipeline pipeline = new Pipeline(commands); // Создаем пайплайн для последовательного выполнения команд
+                    String output = pipeline.execute(environment); // Выполняем пайплайн и получаем вывод
+
+                    // Если есть вывод, печатаем его
                     if (output != null) {
                         System.out.print(output);
-                        if (output != "") {
-                            System.out.print("\n");
+                        if (!output.isEmpty()) {
+                            System.out.print("\n"); // Добавляем новую строку, если вывод не пустой
                         }
                     }
                 } catch (Exception e) {
