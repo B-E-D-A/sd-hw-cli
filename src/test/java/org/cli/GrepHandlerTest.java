@@ -119,21 +119,21 @@ class GrepHandlerTest {
 
         Command grepCommand = new Command("grep", List.of("\"[invalid\"", testFile.getPath()));
         String output = executor.execute(grepCommand, null);
-        assertTrue(output.startsWith("grep: invalid pattern"));
+        assertTrue(output.startsWith("ERROR: grep: invalid pattern"));
     }
 
     @Test
     void testGrepMissingFile() {
         Command grepCommand = new Command("grep", List.of("\"pattern\"", "nonexistent.txt"));
         String output = executor.execute(grepCommand, null);
-        assertTrue(output.startsWith("grep: nonexistent.txt"));
+        assertTrue(output.startsWith("ERROR: grep: nonexistent.txt"));
     }
 
     @Test
     void testGrepMissingPattern() {
         Command grepCommand = new Command("grep", List.of());
         String output = executor.execute(grepCommand, null);
-        assertEquals("grep: Main parameters are required (\"pattern [file...]\")", output);
+        assertEquals("ERR: grep: Main parameters are required (\"pattern [file...]\")", output);
     }
 
     @Test

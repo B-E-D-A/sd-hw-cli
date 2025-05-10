@@ -12,6 +12,8 @@ import java.util.List;
  * Параметры команды grep для парсинга JCommander.
  */
 public class GrepParameters {
+    private boolean literalMatch = false;
+
     @Parameter(names = {"-w", "--word-regexp"}, description = "Search for whole words only")
     private boolean wholeWord = false;
 
@@ -43,10 +45,22 @@ public class GrepParameters {
         }
     }
 
+    /** Setters **/
+    public void setLiteralMatch(boolean literalMatch) {
+        this.literalMatch = literalMatch;
+    }
+
     /** Getters **/
     public boolean isWholeWord() { return wholeWord; }
     public boolean isIgnoreCase() { return ignoreCase; }
     public int getAfterContext() { return afterContext; }
     public String getPattern() { return parameters.get(0); }
     public String getFileName() { return parameters.size() > 1 ? parameters.get(1) : null; }
+    public List<String> getRawParameters() {
+        return parameters;
+    }
+    public boolean isLiteralMatch() {
+        return literalMatch;
+    }
+
 }
