@@ -8,9 +8,11 @@ import java.util.Map;
  */
 public class Environment {
     private final Map<String, String> variables;
+    private String currentDirectory;
 
     public Environment() {
         this.variables = new HashMap<>(System.getenv());
+        this.currentDirectory = System.getProperty("user.dir");
     }
 
     /**
@@ -38,5 +40,13 @@ public class Environment {
      */
     public Map<String, String> getVariables() {
         return new HashMap<>(variables);
+    }
+
+    public String getCurrentDirectory() {
+        return currentDirectory;
+    }
+
+    public void setCurrentDirectory(String path) {
+        this.currentDirectory = path;
     }
 }
