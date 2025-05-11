@@ -75,7 +75,7 @@ class ExecutorTest {
     }
 
     @Test
-    void testCdToExistingDirectory() throws IOException {
+    void testCdToExistingDirectory() {
         File testDir = new File("testdir");
         testDir.mkdir();
         Command cdCommand = new Command("cd", List.of("testdir"));
