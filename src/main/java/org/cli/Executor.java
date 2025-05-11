@@ -30,6 +30,10 @@ public class Executor {
 
     /**
      * Выполняет переданную команду.
+     *
+     * @param command команда для выполнения
+     * @param input входные данные для команды (может быть null)
+     * @return вывод команды
      */
     public String execute(Command command, String input) {
         return switch (command.getName()) {
@@ -51,6 +55,7 @@ public class Executor {
 
     /**
      * Реализация команды `cd`.
+     * используется для изменения текущей директории
      */
     private String executeCd(Command command, String input) {
         if (command.getArguments().size() > 1) {
@@ -82,6 +87,7 @@ public class Executor {
 
     /**
      * Реализация команды `ls`.
+     * используется для вывода списка файлов и каталогов в текущем каталоге или указанном каталоге.  
      */
     private String executeLs(Command command, String input) {
         if (command.getArguments().size() > 1) {
@@ -232,6 +238,7 @@ public class Executor {
 
     /**
      * Реализация команды `grep`.
+     * Ищет строки, соответствующие заданному шаблону.
      */
     private String executeGrep(Command command, String input) {
         GrepParameters params = new GrepParameters();
