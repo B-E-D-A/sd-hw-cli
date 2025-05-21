@@ -47,6 +47,7 @@ public class Executor {
             }
             case "set" -> executeSet(command, input);
             case "grep" -> executeGrep(command, input);
+            // Добавлены новые комманды
             case "ls" -> executeLs(command, input);
             case "cd" -> executeCd(command, input);
             default -> executeExternal(command, input);
@@ -67,6 +68,7 @@ public class Executor {
                 : command.getArguments().get(0);
 
         try {
+            // Меняем пути в соответствии с рабочей директорией
             Path newPath = resolvePath(target);
 
             if (!Files.exists(newPath)) {
@@ -94,6 +96,7 @@ public class Executor {
             return "ls: too many arguments";
         }
 
+        // Меняем пути в соответствии с рабочей директорией
         Path dir = command.getArguments().isEmpty()
                 ? Paths.get(environment.getCurrentDirectory())
                 : resolvePath(command.getArguments().get(0));
@@ -146,6 +149,7 @@ public class Executor {
         StringBuilder output = new StringBuilder();
         for (String fileName : command.getArguments()) {
             try {
+                // Меняем пути в соответствии с рабочей директорией
                 Path filePath = resolvePath(fileName);
                 output.append(Files.readString(filePath)).append("\n");
             } catch (NoSuchFileException e) {
@@ -191,6 +195,7 @@ public class Executor {
      * Выводит текущую директорию.
      */
     private String executePwd() {
+        // Получаем дирректорию без обращения к системи используя Environment
         return environment.getCurrentDirectory();
     }
 
@@ -199,6 +204,7 @@ public class Executor {
      */
     private String executeExternal(Command command, String input) {
         try {
+            // меняем пути в соответствии с текущей рабочей директорией
             Process process = new ProcessBuilder(command.getFullCommand())
                     .directory(Paths.get(environment.getCurrentDirectory()).toFile())
                     .start();
