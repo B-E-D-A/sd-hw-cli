@@ -8,6 +8,8 @@ import java.util.Map;
  */
 public class Environment {
     private final Map<String, String> variables;
+
+    // Добавлено хранение текущей директории выполнения
     private String currentDirectory;
 
     public Environment() {
@@ -42,10 +44,17 @@ public class Environment {
         return new HashMap<>(variables);
     }
 
+    // Функции для работы с директорией выполнения
+    /**
+     * Возвращает текущую директорию
+     */
     public String getCurrentDirectory() {
         return currentDirectory;
     }
 
+    /**
+     * Устанавливает текущую директорию
+     */
     public void setCurrentDirectory(String path) {
         this.currentDirectory = path;
     }
