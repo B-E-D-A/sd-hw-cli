@@ -21,7 +21,7 @@ tasks.withType(Test).configureEach {
 
 dependencies {
     implementation("org.jcommander:jcommander:2.0")
-    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation platform('org.junit:junit-bom:5.13.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
